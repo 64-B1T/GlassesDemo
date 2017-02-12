@@ -1,5 +1,5 @@
-#include <Wire.h>  // Include Wire if you're using I2C
-#include <SPI.h>  // Include SPI if you're using SPI
+#include <Wire.h>  using I2C
+#include <SPI.h> //using SPI
 #include <SFE_MicroOLED.h>  // Include the SFE_MicroOLED library
 
 //////////////////////////
@@ -28,11 +28,17 @@ float r[] = {
   0,0,0};
 
 #define SHAPE_SIZE 600
-// Define how fast the cube rotates. Smaller numbers are faster.
+// Defines how fast the cube rotates. Smaller numbers are faster.
 // This is the number of ms between draws.
+//Unfortunately the Cube is not working
 #define ROTATION_SPEED 0
 
-/////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////
+// This is a picture of an Octocat //
+/////////////////////////////////////
+
 uint8_t bender [] = {
 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x7F, 0x01, 0x00,
 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
@@ -60,14 +66,15 @@ uint8_t bender [] = {
 0xC0, 0xC0, 0xE0, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF
 };
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////
 // MicroOLED Object Declaration //
 //////////////////////////////////
 MicroOLED oled(PIN_RESET, PIN_DC, PIN_CS); // SPI declaration
 //MicroOLED oled(PIN_RESET, DC_JUMPER);    // I2C declaration
-boolean flip = true;
+
+boolean flip = true; //An attempt to get the right rotation
 
 void setup()
 {
@@ -75,12 +82,12 @@ void setup()
   oled.begin();    // Initialize the OLED
   oled.flipHorizontal(flip);
   oled.flipVertical(flip);
-  oled.setRotation(0);
+  //tft.setRotation(0); // Another attempt to rotate display
   oled.clear(ALL); // Clear the display's internal memory
-  oled.display();// Display what's in the buffer (splashscreen)
+  oled.display();// Display stuff
  
-  delay(1000);     // Delay 1000 ms
-  oled.clear(PAGE); // Clear the buffer.
+  delay(1000);     
+  oled.clear(PAGE); // DELETE
   
   randomSeed(analogRead(A0) + analogRead(A1));
 
@@ -96,7 +103,7 @@ int SCREEN_HEIGHT = oled.getLCDHeight();
   
   for (int i=0; i<3; i++)
   {
-    for (int deg=0; deg<360; deg+=15)
+    for (int deg=0; deg<360; deg+=15) //for those moments I really want the middle
     {
       xEnd = lineWidth * cos(deg * PI / 180.0);
       yEnd = lineWidth * sin(deg * PI / 180.0);
@@ -124,15 +131,10 @@ int SCREEN_HEIGHT = oled.getLCDHeight();
 }
 
 void boot(){
-  ///printTitle("Text!", 1);
   
-  // Demonstrate font 0. 5x8 font
-  oled.clear(PAGE);     // Clear the screen
-  oled.setFontType(0);  // Set font to type 0
-  oled.setCursor(0, 0); // Set cursor to top-le
   
-  // Demonstrate font 1. 8x16. Let's use the print function
-  // to display every character defined in this font.
+  // Demonstrate font 1. 
+ 
   oled.setFontType(1);  // Set font to type 1
   oled.clear(PAGE);     // Clear the page
   oled.setCursor(0, 0); // Set cursor to top-left
@@ -223,8 +225,8 @@ void printTitle(String title, int font)
 }
 
 void mlh(){
-  oled.clear(PAGE);//clear the screen before we draw our image
-  oled.drawBitmap(bender);//call the drawBitmap function and pass it the array from above
+  oled.clear(PAGE);//clear the screen before we draw octocat
+  oled.drawBitmap(bender);//call the drawBitmap function 
   oled.display();//display the imgage
   delay(2000);
 }
